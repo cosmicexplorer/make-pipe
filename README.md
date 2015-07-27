@@ -14,6 +14,14 @@ make-pipe echo 'heya' '|' cat '|' grep -Eo '[ea]'
 # a
 ```
 
+If you want to pipe data into `make-pipe`, set the environment variable `LISTEN`. This can be useful for handing off a pipeline you don't control into your own pipeline which will fail if any of its constituent commands fails.
+
+```
+echo hey | LISTEN=y make-pipe cat '|' cat
+# outputs:
+# hey
+```
+
 # Examples
 
 This was made for use in [a bioinformatics project](https://github.com/cosmicexplorer/mutation-optimizer).
