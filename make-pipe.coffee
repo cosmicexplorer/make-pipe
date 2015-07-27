@@ -12,6 +12,7 @@ splitArrayByElement = (el, arr) ->
       {left, right} = splitArrayByIndex ind, arr
       [left].concat splitArrayByElement el, right
 
+# consider sticking this in a transform stream if more complexity needed
 chainSpawn = (outStream, argvs) ->
   curArgv = argvs[0]
   curProc = spawn curArgv[0], curArgv[1..]
