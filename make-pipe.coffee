@@ -1,15 +1,16 @@
 {spawn} = require('child_process')
 
 splitArrayByIndex = (index, arr) ->
-  [arr[..(index - 1)], arr[(index + 1)..]]
+  left: arr[..(index - 1)]
+  right: arr[(index + 1)..]
 
 splitArrayByElement = (el, arr) ->
   ind = arr.indexOf el
   switch ind
     when -1 then [arr]
     else
-      split = splitArrayByIndex ind, arr
-      [split[0]].concat splitArrayByElement el, split[1]
+      {left, right} = splitArrayByIndex ind, arr
+      [left].concat splitArrayByElement el, right
 
 chainProcessStdio = (argvs) ->
   curArgv = argvs[0]
@@ -18,6 +19,7 @@ chainProcessStdio = (argvs) ->
     when 1 then process.stdout
     else chainProcessStdio argvs[1..]
   curProc.stderr.pipe process.stderr
+  # this is the magic part
   curProc.on 'exit', (code) -> process.exit code if code
   curProc.stdin
 
