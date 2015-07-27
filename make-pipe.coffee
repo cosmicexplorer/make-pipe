@@ -17,8 +17,8 @@ chainProcessStdio = (argvs) ->
   curProc.stdout.pipe switch argvs.length
     when 1 then process.stdout
     else chainProcessStdio argvs[1..]
-  curProc.on 'exit', (code) -> process.exit code if code
   curProc.stderr.pipe process.stderr
+  curProc.on 'exit', (code) -> process.exit code if code
   curProc.stdin
 
 commandPipeline = chainProcessStdio splitArrayByElement '|', process.argv[2..]
