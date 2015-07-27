@@ -12,17 +12,17 @@ splitArrayByElement = (el, arr) ->
       {left, right} = splitArrayByIndex ind, arr
       [left].concat splitArrayByElement el, right
 
-chainProcessStdio = (argvs) ->
+chainSpawn = (outStream, argvs) ->
   curArgv = argvs[0]
   curProc = spawn curArgv[0], curArgv[1..]
   curProc.stdout.pipe switch argvs.length
-    when 1 then process.stdout
-    else chainProcessStdio argvs[1..]
+    when 1 then outStream
+    else chainSpawn outStream, argvs[1..]
   curProc.stderr.pipe process.stderr
   # this is the magic part
   curProc.on 'exit', (code) -> process.exit code if code
   curProc.stdin
 
-commandPipeline = chainProcessStdio splitArrayByElement '|', process.argv[2..]
+pipeline = chainSpawn process.stdout, splitArrayByElement '|', process.argv[2..]
 
-process.stdin.pipe commandPipeline if process.env.LISTEN
+process.stdin.pipe pipeline if process.env.LISTEN
