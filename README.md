@@ -22,6 +22,10 @@ echo hey | LISTEN=y make-pipe cat '|' cat
 # hey
 ```
 
+# Install
+
+`npm install -g make-pipe`
+
 # Examples
 
 This was made for use in [a bioinformatics project](https://github.com/cosmicexplorer/mutation-optimizer).
