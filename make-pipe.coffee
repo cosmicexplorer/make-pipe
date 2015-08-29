@@ -1,4 +1,4 @@
-{spawn} = require('child_process')
+{spawn} = require 'child_process'
 
 splitArrayByIndex = (index, arr) ->
   left: arr[..(index - 1)]
